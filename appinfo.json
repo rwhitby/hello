@@ -1,0 +1,17 @@
+{
+	"title": "Hello!",
+	"id": "org.webosinternals.hello",
+	"version": "1.0.0",
+	"release_date": "13-Mar-2011",
+	"vendor": "WebOS Internals",
+	"vendor_email":	"support@webos-internals.org",
+	"vendor_url": "http://www.webos-internals.org/wiki/Application:Hello",
+	"type": "web",
+	"plug-ins" : true,
+	"main": "index.html",
+	"icon": "icon.png",
+	"keywords": ["goodbye"],
+	"removable": "true",
+	"noWindow": true,
+	"noDeprecatedStyles" : true 
+}

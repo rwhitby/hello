@@ -1,0 +1,14 @@
+{
+    "id": "org.webosinternals.hello.node",
+    "description": "Hello Service",
+    "services": [ {
+    "name": "org.webosinternals.hello.node",
+    "description": "Hello Service",
+    "commands": [ { 
+            "name": "hello", 
+            "assistant": "HelloAssistant",
+	    "public": true
+             }
+           ] 
+        }]
+}

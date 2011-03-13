@@ -1,0 +1,61 @@
+#!/bin/sh
+
+APPID=org.webosinternals.hello
+NSRVID=org.webosinternals.hello.node
+CSRVID=org.webosinternals.hello.c
+
+APPS=/media/cryptofs/apps
+
+[ -d ${APPS} ] || { echo "Requires webOS 1.3.5 or later" ; exit 1 ; }
+
+APPDIR=${APPS}/usr/palm/applications/${APPID}
+NSRVDIR=${APPS}/usr/palm/services/${NSRVID}
+CSRVDIR=${APPS}/usr/palm/applications/${APPID}/c-service
+
+# Remove the C service executable
+rm -f /var/usr/sbin/${CSRVID}
+
+# Remove the dbus service
+rm -f /var/palm/ls2/services/prv/${CSRVID}.service /var/palm/ls2/services/pub/${CSRVID}.service
+
+# Remove the ls2 roles
+rm -f /var/palm/ls2/roles/prv/${CSRVID}.json /var/palm/ls2/roles/pub/${CSRVID}.json
+
+# Stop the service if running
+/sbin/stop ${CSRVID} || true
+/usr/bin/killall -9 ${CSRVID} || true
+
+# Remove the upstart script
+rm -f /var/palm/event.d/${CSRVID}
+
+# Install the hello executable
+mkdir -p /var/usr/sbin/
+install -m 755 ${CSRVDIR}/hello /var/usr/sbin/${CSRVID}
+
+# Install the dbus service
+mkdir -p /var/palm/system-services
+cp ${CSRVDIR}/${CSRVID}.service /var/palm/ls2/services/prv/${CSRVID}.service
+cp ${CSRVDIR}/${CSRVID}.service /var/palm/ls2/services/pub/${CSRVID}.service
+
+# Install the ls2 roles
+mkdir -p /var/palm/ls2/roles/prv /var/palm/ls2/roles/pub
+cp ${CSRVDIR}/${CSRVID}.json /var/palm/ls2/roles/prv/${CSRVID}.json
+cp ${CSRVDIR}/${CSRVID}.json /var/palm/ls2/roles/pub/${CSRVID}.json
+/usr/bin/ls-control scan-services || true
+
+# Install the upstart script
+mkdir -p /var/palm/event.d
+cp ${CSRVDIR}/${CSRVID} /var/palm/event.d/${CSRVID}
+
+# Start the C service
+/sbin/start ${CSRVID}
+
+sed -i -e "/:${APPID}:/d" /var/palm/data/jailusers
+# echo "4999:5000:${APPID}:/dev/null:${APPDIR}/jail_app.conf" >> /var/palm/data/jailusers
+echo "4999:5000:${APPID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
+
+sed -i -e "/:${NSRVID}:/d" /var/palm/data/jailusers
+# echo "4999:5000:${NSRVID}:/dev/null:${NSRVDIR}/jail_app.conf" >> /var/palm/data/jailusers
+echo "4999:5000:${NSRVID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
+
+exit 0

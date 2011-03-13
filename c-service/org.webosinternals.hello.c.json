@@ -1,0 +1,14 @@
+{
+  "role": {
+     "exeName":"/var/usr/sbin/org.webosinternals.hello.c",
+     "type": "regular",
+     "allowedNames": ["org.webosinternals.hello.c"]
+  },
+  "permissions": [
+    {
+      "service":"org.webosinternals.hello.c",
+      "inbound":["*"],
+      "outbound":["*"]
+    }
+  ]
+}

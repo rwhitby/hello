@@ -1,0 +1,12 @@
+{
+  "id": "org.webosinternals.hello",
+  "package_format_version": 2,
+  "loc_name": "Hello!",
+  "version": "1.0.0",
+  "icon": "icon.png",
+  "miniicon": "icon.png",
+  "vendor": "WebOS Internals",
+  "vendorurl": "www.webos-internals.org",
+  "app": "org.webosinternals.hello",
+  "services": ["org.webosinternals.hello.node"]
+}
