@@ -14,16 +14,16 @@ else
 # Emulator build
 STAGING_DIR=/srv/preware/build/staging/i686
 ifeq ($(shell uname -s),Darwin)
-CC=/opt/PalmPDK/i686-gcc/bin/i686-nptl-linux-gnu-gcc
-INCDIRS=-I/opt/PalmPDK/include/libc -I/opt/PalmPDK/include -I/opt/PalmPDK/include/SDL
-LIBDIR=/opt/PalmPDK/host/lib
+CC=/opt/PalmPDK/i686-gcc/bin/i686-nptl-linux-gnu-gcc --sysroot=/opt/PalmPDK/i686-gcc/sys-root
+INCDIRS=-I/opt/PalmPDK/include -I/opt/PalmPDK/include/SDL
+LIBDIR=/opt/PalmPDK/emulator/lib
 else
 CC=/srv/preware/build/toolchain/i686-unknown-linux-gnu/build/i686-unknown-linux-gnu/bin/i686-unknown-linux-gnu-gcc
 endif
 endif
 
 CPPFLAGS := -g -DVERSION=\"${VERSION}\" ${INCDIRS}
-LDFLAGS  := -g -L${LIBDIR} -Wl,-rpath-link,${LIBDIR} -lpdl -Wl,--allow-shlib-undefined
+LDFLAGS  := -g -L${LIBDIR} -Wl,-rpath-link,${LIBDIR} -lSDL -lpdl -Wl,--allow-shlib-undefined
 
 hello: hello.o
 

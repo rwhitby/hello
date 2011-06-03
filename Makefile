@@ -2,9 +2,7 @@ APPID = org.webosinternals.hello
 
 package: clean
 	cd c-service && ${MAKE}
-ifdef DEVICE
 	cd c-plugin && ${MAKE}
-endif
 	palm-package . package node-service
 	ar q ${APPID}_*.ipk pmPostInstall.script
 	ar q ${APPID}_*.ipk pmPreRemove.script

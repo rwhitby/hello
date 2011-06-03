@@ -1,15 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-	<title>Hello!</title>
-	<script src="/usr/palm/frameworks/mojo/mojo.js" type="text/javascript" x-mojo-version="1" />
-
-	<!-- application stylesheet should come in after the one loaded by the framework -->
-	<link href="stylesheets/hello.css" media="screen" rel="stylesheet" type="text/css" />
+    <title>Hello!</title>
+    <script type="text/javascript">
+        // Setup our "enjo" variable to track what is available to us
+        if (typeof enjo === 'undefined') {
+            enjo = window.Enjo || {};
+            
+            enjo.WEBOS_AVAILABLE = false;
+            enjo.ENYO_AVAILABLE = false;
+            enjo.MOJO_AVAILABLE = false;
+            
+            if (window.PalmSystem) {
+                enjo.WEBOS_AVAILABLE = true;
+                enjo.MOJO_AVAILABLE = true;
+                
+                var deviceInfo = JSON.parse(PalmSystem.deviceInfo);
+                if (deviceInfo) {
+                    var majorVersion = deviceInfo["platformVersionMajor"];
+                    if (majorVersion < 3) {
+                        enjo.ENYO_AVAILABLE = false;
+                    }
+                }
+            }
+        }
+        // Parse our location, and start building out the new location
+        var currentLocation = window.location.href;
+        var newLocation = currentLocation.substr(0, currentLocation.lastIndexOf('/') + 1);
+        
+        // Run logic to determine what file to load
+        if (enjo.ENYO_AVAILABLE) {
+            newLocation += "enyo";
+        } else {
+            newLocation += "mojo";
+        }
+        newLocation += ".html";
+        // Redirect to the correct file for this environment
+        window.location.href = newLocation;
+    </script>
 </head>
-<body>
-	<h2>Hello Index!</h2>
-</body>
 </html>
