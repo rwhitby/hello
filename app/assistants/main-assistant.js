@@ -8,13 +8,15 @@ MainAssistant.prototype.setup = function() {
 
     this.htmlElement = this.controller.get('htmlDiv');
     this.csrvElement = this.controller.get('csrvDiv');
-    this.nodeElement = this.controller.get('nodeDiv');
     this.pluginElement = this.controller.get('pluginDiv');
     this.pluginObject = this.controller.get("pluginObject");
+    this.nodeElement = this.controller.get('nodeDiv');
 };
 
 MainAssistant.prototype.activate = function(event) {
+
     this.htmlElement.innerHTML = "Hello HTML!";
+
     this.csrvElement.innerHTML = "Calling C Service ...";
     this.controller.serviceRequest('palm://org.webosinternals.hello.c', {
       method:"hello",
@@ -22,14 +24,22 @@ MainAssistant.prototype.activate = function(event) {
       onSuccess:this.csrvSuccess.bind(this),
       onFailure:this.csrvFailure.bind(this)
     });
-    this.nodeElement.innerHTML = "Calling Node Service ...";
-    this.controller.serviceRequest('palm://org.webosinternals.hello.node', {
-      method:"hello",
-      parameters:{"name":"Node Service"},
-      onSuccess:this.nodeSuccess.bind(this),
-      onFailure:this.nodeFailure.bind(this)
-    });
+
+    this.pluginElement.innerHTML = "Waiting for PDK Plugin ...";
     this.pluginObject.ready = this.pluginReady.bind(this);
+
+    if (Mojo.Environment.DeviceInfo.platformVersionMajor != 1) {
+	this.nodeElement.innerHTML = "Calling Node Service ...";
+	this.controller.serviceRequest('palm://org.webosinternals.hello.node', {
+		method:"hello",
+		    parameters:{"name":"Node Service"},
+		    onSuccess:this.nodeSuccess.bind(this),
+		    onFailure:this.nodeFailure.bind(this)
+		    });
+    }
+    else {
+	this.nodeElement.innerHTML = "Node Service not available.";
+    }
 };
 
 MainAssistant.prototype.nodeSuccess = function(successData){
@@ -49,7 +59,7 @@ MainAssistant.prototype.csrvFailure = function(failData){
 };
 
 MainAssistant.prototype.pluginReady = function(){
-    this.pluginElement.innerHTML = "Plugin Ready";
+    this.pluginElement.innerHTML = "Calling PDK Plugin ...";
     setTimeout(this.callPlugin.bind(this), 0);
 };
 

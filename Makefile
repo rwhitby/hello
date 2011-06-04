@@ -1,8 +1,14 @@
 APPID = org.webosinternals.hello
 
-package: clean
+emulator:
 	cd c-service && ${MAKE}
 	cd c-plugin && ${MAKE}
+
+device:
+	cd c-service && ${MAKE} DEVICE=1
+	cd c-plugin && ${MAKE} DEVICE=1
+
+package: clean emulator
 	palm-package . package node-service
 	ar q ${APPID}_*.ipk pmPostInstall.script
 	ar q ${APPID}_*.ipk pmPreRemove.script
