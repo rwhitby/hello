@@ -10,6 +10,7 @@ MainAssistant.prototype.setup = function() {
     this.csrvElement = this.controller.get('csrvDiv');
     this.nodeElement = this.controller.get('nodeDiv');
     this.pluginElement = this.controller.get('pluginDiv');
+    this.pluginObject = this.controller.get("pluginObject");
 };
 
 MainAssistant.prototype.activate = function(event) {
@@ -26,6 +27,7 @@ MainAssistant.prototype.activate = function(event) {
       onSuccess:this.nodeSuccess.bind(this),
       onFailure:this.nodeFailure.bind(this)
     });
+    this.pluginObject.ready = this.pluginReady.bind(this);
 };
 
 MainAssistant.prototype.nodeSuccess = function(successData){
@@ -43,3 +45,13 @@ MainAssistant.prototype.csrvSuccess = function(successData){
 MainAssistant.prototype.csrvFailure = function(failData){
     this.csrvElement.innerHTML = JSON.stringify(failData);
 };
+
+MainAssistant.prototype.pluginReady = function(){
+    this.pluginElement.innerHTML = "Plugin Ready";
+    setTimeout(this.callPlugin.bind(this), 0);
+};
+
+MainAssistant.prototype.callPlugin = function(){
+    this.pluginElement.innerHTML = this.pluginObject.hello("PDK Plugin");
+};
+

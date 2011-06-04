@@ -20,7 +20,7 @@ PDL_bool hello(PDL_JSParameters *params)
 int main(int argc, char** argv)
 {
   // Initialize the SDL library
-  int result = SDL_Init(0);
+  int result = SDL_Init(SDL_INIT_VIDEO);
     
   if ( result != 0 ) {
     printf("Could not init SDL: %s\n", SDL_GetError());
@@ -32,6 +32,7 @@ int main(int argc, char** argv)
   // register the js callback
   PDL_RegisterJSHandler("hello", hello);
   PDL_JSRegistrationComplete();
+  PDL_CallJS("ready", NULL, 0);
 
   // Event descriptor
   SDL_Event Event;

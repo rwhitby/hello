@@ -8,6 +8,8 @@
 	"vendor_url": "http://www.webos-internals.org/wiki/Application:Hello",
 	"type": "web",
 	"plug-ins" : true,
+	"noWindow" : true,
+	"noDeprecatedStyles" : true,
 	"main": "index.html",
 	"icon": "icon.png",
 	"keywords": ["goodbye"],
