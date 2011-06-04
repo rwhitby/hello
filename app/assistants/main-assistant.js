@@ -15,12 +15,14 @@ MainAssistant.prototype.setup = function() {
 
 MainAssistant.prototype.activate = function(event) {
     this.htmlElement.innerHTML = "Hello HTML!";
+    this.csrvElement.innerHTML = "Calling C Service ...";
     this.controller.serviceRequest('palm://org.webosinternals.hello.c', {
       method:"hello",
       parameters:{"name":"C Service"},
       onSuccess:this.csrvSuccess.bind(this),
       onFailure:this.csrvFailure.bind(this)
     });
+    this.nodeElement.innerHTML = "Calling Node Service ...";
     this.controller.serviceRequest('palm://org.webosinternals.hello.node', {
       method:"hello",
       parameters:{"name":"Node Service"},
