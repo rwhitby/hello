@@ -1,0 +1,4 @@
+c-plugin/hello
+c-service/hello
+*.ipk
+*.o
