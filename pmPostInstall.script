@@ -50,12 +50,12 @@ cp ${CSRVDIR}/${CSRVID} /var/palm/event.d/${CSRVID}
 # Start the C service
 /sbin/start ${CSRVID}
 
-sed -i -e "/:${APPID}:/d" /var/palm/data/jailusers
+# sed -i -e "/:${APPID}:/d" /var/palm/data/jailusers
 # echo "4999:5000:${APPID}:/dev/null:${APPDIR}/jail_app.conf" >> /var/palm/data/jailusers
-echo "4999:5000:${APPID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
+# echo "4999:5000:${APPID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
 
-sed -i -e "/:${NSRVID}:/d" /var/palm/data/jailusers
+# sed -i -e "/:${NSRVID}:/d" /var/palm/data/jailusers
 # echo "4999:5000:${NSRVID}:/dev/null:${NSRVDIR}/jail_app.conf" >> /var/palm/data/jailusers
-echo "4999:5000:${NSRVID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
+# echo "4999:5000:${NSRVID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
 
 exit 0

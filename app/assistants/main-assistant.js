@@ -15,15 +15,20 @@ MainAssistant.prototype.setup = function() {
 
 MainAssistant.prototype.activate = function(event) {
 
-    this.htmlElement.innerHTML = "Hello HTML!";
+    this.htmlElement.innerHTML = "Hello Mojo!";
 
-    this.csrvElement.innerHTML = "Calling C Service ...";
-    this.controller.serviceRequest('palm://org.webosinternals.hello.c', {
-      method:"hello",
-      parameters:{"name":"C Service"},
-      onSuccess:this.csrvSuccess.bind(this),
-      onFailure:this.csrvFailure.bind(this)
-    });
+    if (true) {
+	this.csrvElement.innerHTML = "Calling C Service ...";
+	this.controller.serviceRequest('palm://org.webosinternals.hello.c', {
+		method:"hello",
+		    parameters:{"name":"C Service"},
+		    onSuccess:this.csrvSuccess.bind(this),
+		    onFailure:this.csrvFailure.bind(this)
+		    });
+    }
+    else {
+	this.csrvElement.innerHTML = "C Service not available.";
+    }
 
     this.pluginElement.innerHTML = "Waiting for PDK Plugin ...";
     this.pluginObject.ready = this.pluginReady.bind(this);
