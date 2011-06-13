@@ -11,11 +11,15 @@ enyo.kind(
 	
 	{name: 'enyoElement', kind: 'Item', content: 'Hello Enyo!'},
 	{name: 'csrvElement', kind: 'Item', content: 'Waiting for C Service ...'},
+	{name: 'pluginElement', kind: 'Item', content: 'Waiting for PDK Plugin ...'},
 	{name: 'nodeElement', kind: 'Item', content: 'Waiting for Node Service ...'},
 		
 	{name: 'cservice', kind: 'PalmService',
 	 service: 'palm://org.webosinternals.hello.c/', method: 'hello',
 	 onResponse: 'csrvResponse'},
+
+	{name: 'pluginObject', kind: enyo.Hybrid, executable: 'c-plugin/hello',
+	 onPluginReady: 'pluginReady'},
 
 	{name: 'nodeservice', kind: 'PalmService',
 	 service: 'palm://org.webosinternals.hello.node/', method: 'hello',
@@ -37,6 +41,15 @@ enyo.kind(
 	else {
 	    this.$.csrvElement.setContent("Error: "+inResponse.errorText);
 	}
+    },
+
+    pluginReady: function(inSender, inResponse, inRequest) {
+	this.$.pluginElement.setContent("Calling PDK Plugin ...");
+	this.$.pluginObject.callPluginMethodDeferred(enyo.bind(this, "pluginResponse"), "hello", "PDK Plugin");
+    },
+
+    pluginResponse: function(response) {
+	this.$.pluginElement.setContent(response);
     },
 
     nodeResponse: function(inSender, inResponse, inRequest) {
