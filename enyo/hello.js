@@ -1,22 +1,31 @@
 enyo.kind(
 {
-    name: "org.webosinternals.hello",
+    name: "Hello.Main",
     kind: enyo.VFlexBox,
+    className: 'enyo-fit enyo-vflexbox main',
     components: [
 
+	{kind: 'SlidingPane', flex: 1, wideWidth: 800, components: [
+	     {name: 'list', width: '320px', components: [
+		  {kind: wi.Header, random: [
+		       {weight: 1,  tagline: 'You Say Goodbye, But I Say Hello!'}
+		   ]},
+		  
+		  {name: 'controls', components: [
+		       {name: 'htmlElement', kind: 'Item', content: 'Hello Enyo!'},
+		       {name: 'csrvElement', kind: 'Item', content: 'Waiting for C Service ...'},
+		       {name: 'nodeElement', kind: 'Item', content: 'Waiting for Node Service ...'}
+		   ]}
+	      ]}
+	 ]},
+		
 	{name: 'cservice', kind: 'PalmService',
 	 service: 'palm://org.webosinternals.hello.c/', method: 'hello',
 	 onResponse: 'csrvResponse'},
 
 	{name: 'nodeservice', kind: 'PalmService',
 	 service: 'palm://org.webosinternals.hello.node/', method: 'hello',
-	 onResponse: 'nodeResponse'},
-
-	{name: 'htmlElement', content: 'Hello Enyo!'},
-	
-	{name: 'csrvElement', content: 'Waiting for C Service ...'},
-	
-	{name: 'nodeElement', content: 'Waiting for Node Service ...'}
+	 onResponse: 'nodeResponse'}
     ],
     
     rendered: function() {

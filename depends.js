@@ -1,4 +1,5 @@
 enyo.depends(
-	"enyo/hello.js",
-	"enyo/hello.css"
+	     "enyo/wi/wi.js",
+	     "enyo/hello.js",
+	     "enyo/css/hello.css"
 );
