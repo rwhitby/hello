@@ -10,6 +10,12 @@ enyo.kind({
 		date:		[],
 		random:		[]
 	},
+	_selected:	false,
+	_icon:		'',
+	_title:		'',
+	_version:	'',
+	_tagline:	'',
+	
 	components: [
 		{kind: 'PageHeader', components: [
 			{name: 'header', kind: 'HFlexBox', className: 'wi-header', components: [
@@ -26,17 +32,20 @@ enyo.kind({
 	],
 	
 	rendered: function() {
-		var d       = this.getDate()
-		var r       = this.getRandom();
-		var icon    = d.icon    || r.icon    || this.icon    || enyo.fetchAppInfo().icon;
-		var title   = d.title   || r.title   || this.title   || enyo.fetchAppInfo().title;
-		var version = d.version || r.version || 'v' + (this.version || enyo.fetchAppInfo().version);
-		var tagline = d.tagline || r.tagline || this.tagline || '&nbsp;';
+		if (!this._selected) {
+			var d			= this.getDate()
+			var r			= this.getRandom();
+			this._icon		= d.icon    || r.icon    || this.icon    || enyo.fetchAppInfo().icon;
+			this._title		= d.title   || r.title   || this.title   || enyo.fetchAppInfo().title;
+			this._version	= d.version || r.version || 'v' + (this.version || enyo.fetchAppInfo().version);
+			this._tagline	= d.tagline || r.tagline || this.tagline || '&nbsp;';
+			this._selected	= true;
+		}
 		if (this.type) this.$.header.addClass(this.type);
-		this.$.icon.setSrc(icon);
-		this.$.title.setContent(title);
-		this.$.version.setContent(version);
-		this.$.tagline.setContent(tagline);
+		this.$.icon.setSrc(this._icon);
+		this.$.title.setContent(this._title);
+		this.$.version.setContent(this._version);
+		this.$.tagline.setContent(this._tagline);
 	},
 	
 	getDate: function() {
