@@ -16,7 +16,7 @@ CSRVDIR=${APPS}/usr/palm/applications/${APPID}/c-service
 rm -f /var/usr/sbin/${CSRVID}
 
 # Remove the dbus service
-rm -f /var/palm/ls2/services/prv/${CSRVID}.service /var/palm/ls2/services/pub/${CSRVID}.service
+rm -f /var/palm/system-services/${CSRVID}.service
 
 # Remove the ls2 roles
 rm -f /var/palm/ls2/roles/prv/${CSRVID}.json /var/palm/ls2/roles/pub/${CSRVID}.json
@@ -34,8 +34,7 @@ install -m 755 ${CSRVDIR}/hello /var/usr/sbin/${CSRVID}
 
 # Install the dbus service
 mkdir -p /var/palm/system-services
-cp ${CSRVDIR}/${CSRVID}.service /var/palm/ls2/services/prv/${CSRVID}.service
-cp ${CSRVDIR}/${CSRVID}.service /var/palm/ls2/services/pub/${CSRVID}.service
+cp ${CSRVDIR}/${CSRVID}.service /var/palm/system-services/${CSRVID}.service
 
 # Install the ls2 roles
 mkdir -p /var/palm/ls2/roles/prv /var/palm/ls2/roles/pub
