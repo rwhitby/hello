@@ -9,6 +9,7 @@ INCDIRS=-I/opt/PalmPDK/include -I/opt/PalmPDK/include/SDL
 LIBDIR=/opt/PalmPDK/device/lib
 else
 CC=/srv/preware/build/toolchain/cs07q3armel/build/arm-2007q3/bin/arm-none-linux-gnueabi-gcc
+INCDIRS=-I${STAGING_DIR}/usr/include
 endif
 else
 # Emulator build
@@ -19,6 +20,7 @@ INCDIRS=-I/opt/PalmPDK/include -I/opt/PalmPDK/include/SDL
 LIBDIR=/opt/PalmPDK/emulator/lib
 else
 CC=/srv/preware/build/toolchain/i686-unknown-linux-gnu/build/i686-unknown-linux-gnu/bin/i686-unknown-linux-gnu-gcc
+INCDIRS=-I${STAGING_DIR}/usr/include
 endif
 endif
 

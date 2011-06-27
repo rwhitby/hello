@@ -28,13 +28,14 @@ rm -f /var/palm/ls2/roles/prv/${CSRVID}.json /var/palm/ls2/roles/pub/${CSRVID}.j
 # Remove the upstart script
 rm -f /var/palm/event.d/${CSRVID}
 
-# Install the hello executable
+# Install the C service executable
 mkdir -p /var/usr/sbin/
 install -m 755 ${CSRVDIR}/hello /var/usr/sbin/${CSRVID}
 
 # Install the dbus service
-mkdir -p /var/palm/system-services
-cp ${CSRVDIR}/${CSRVID}.service /var/palm/system-services/${CSRVID}.service
+mkdir -p /var/palm/ls2/services/prv /var/palm/ls2/services/pub
+cp ${CSRVDIR}/${CSRVID}.service /var/palm/ls2/services/prv/${CSRVID}.service
+cp ${CSRVDIR}/${CSRVID}.service /var/palm/ls2/services/pub/${CSRVID}.service
 
 # Install the ls2 roles
 mkdir -p /var/palm/ls2/roles/prv /var/palm/ls2/roles/pub
@@ -49,12 +50,20 @@ cp ${CSRVDIR}/${CSRVID} /var/palm/event.d/${CSRVID}
 # Start the C service
 /sbin/start ${CSRVID}
 
-# sed -i -e "/:${APPID}:/d" /var/palm/data/jailusers
-# echo "4999:5000:${APPID}:/dev/null:${APPDIR}/jail_app.conf" >> /var/palm/data/jailusers
-# echo "4999:5000:${APPID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
+# Install the node service executable
+mkdir -p /var/usr/sbin/
+sed -e "s|jail=on|jail=off|" -e "s|SERVICE_PATH=\$1|set ${NSRVDIR}\n\nSERVICE_PATH=\$1|" \
+    /usr/bin/run-js-service > /var/usr/sbin/${NSRVID}
+chmod ugo+x /var/usr/sbin/${NSRVID}
 
-# sed -i -e "/:${NSRVID}:/d" /var/palm/data/jailusers
-# echo "4999:5000:${NSRVID}:/dev/null:${NSRVDIR}/jail_app.conf" >> /var/palm/data/jailusers
-# echo "4999:5000:${NSRVID}:/dev/null:/etc/jail_native-palm.conf" >> /var/palm/data/jailusers
+# Override the node dbus service
+cp ${NSRVDIR}/${NSRVID}.service /var/palm/ls2/services/prv/${NSRVID}.service
+cp ${NSRVDIR}/${NSRVID}.service /var/palm/ls2/services/pub/${NSRVID}.service
+
+# Install the node ls2 roles
+mkdir -p /var/palm/ls2/roles/prv /var/palm/ls2/roles/pub
+cp ${NSRVDIR}/${NSRVID}.json /var/palm/ls2/roles/prv/${NSRVID}.json
+cp ${NSRVDIR}/${NSRVID}.json /var/palm/ls2/roles/pub/${NSRVID}.json
+/usr/bin/ls-control scan-services || true
 
 exit 0
