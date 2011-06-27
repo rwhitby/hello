@@ -7,7 +7,7 @@
   "permissions": [
     {
       "service":"org.webosinternals.hello.node",
-      "inbound":["org.webosinternals.hello"],
+      "inbound":["*"],
       "outbound":["*"]
     }
   ]
