@@ -17,7 +17,7 @@ enyo.kind(
 	    { name: 'csrvElement',   kind: 'Item', content: 'Waiting for C Service ...' },
 	    { name: 'pluginElement', kind: 'Item', content: 'Waiting for PDK Plugin ...' },
 	    { name: 'nodeElement',   kind: 'Item', content: 'Waiting for Node Service ...' },
-	    { name: 'touchElement',  kind: 'Item', content: 'Waiting for Touch to Share Service ...' },
+	    { name: 'touchElement',  kind: 'Item', content: 'Waiting for Touch to Share ...' },
 	    
 	    { name: 'cservice', kind: 'PalmService',
 	      service: 'palm://org.webosinternals.hello.c/', method: 'hello',
