@@ -29,13 +29,16 @@ enyo.kind(
     applicationRelaunchHandler: function(params) {
 	if(enyo.windowParams.sendDataToShare != undefined)
 	{
-		this.$.tappedElement.setContent("Hello Tap To Share!");
+		enyo.windows.getActiveWindow().enyo.$.main.changeTap();
 		this.$.stService.call({data: {target: "http://www.webos-internals.org", type: "rawdata", mimetype: "text/html"}}, {method: "shareData"});
 	}
 	
       enyo.windows.activate("hello.html", "main", {});
 
     },
+	changeTap: function() {
+		this.$.tappedElement.setContent("Hello Tap To Share!");
+	},
     rendered: function() {
 	this.inherited(arguments);
 	this.$.csrvElement.setContent("Calling C Service ...");
