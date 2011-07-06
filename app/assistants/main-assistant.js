@@ -56,19 +56,19 @@ MainAssistant.prototype.activate = function(params)
 	this.activated = 1;
     }
     else if (params.sendDataToShare) {
+	this.touchElement.innerHTML = "Calling Touch to Share ...";
 	this.controller.serviceRequest('palm://com.palm.stservice', {
 					   method:  "shareData",
 					   parameters: {
-// data: { target: "http://developer.palm.com/appredirect/?packageid=org.preware.docs", type: "rawdata", mimetype: "text/html" }
- data: { target: "http://tts.wosi.ws/org.webosinternals.hello/?helloData=Enyo", type: "rawdata", mimetype: "text/html" }
+		    data: { target: "http://hello.wosi.ws/Mojo", type: "rawdata", mimetype: "text/html" }
 					   },
 					   onSuccess: this.touchSuccess.bind(this),
 					   onFailure: this.touchFailure.bind(this)
 				       });
-	this.touchElement.innerHTML = "Sharing data ...";
     }
-    else if (params.helloData) {
-	this.touchElement.innerHTML = "Hello "+params.helloData+"!";
+    else if (params.target) {
+	var string = params.target.substring(21);
+	this.touchElement.innerHTML = "Hello "+string+"!";
     }
 };
 

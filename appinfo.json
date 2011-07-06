@@ -14,5 +14,6 @@
 	"icon": "icon.png",
 	"keywords": ["goodbye"],
 	"uiRevision": 2,
-	"tapToShareSupported":true
+	"tapToShareSupported":true,
+	"mimeTypes": [ { "urlPattern": "http://hello.wosi.ws/" } ]
 }

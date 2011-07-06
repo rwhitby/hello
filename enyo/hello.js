@@ -37,8 +37,9 @@ enyo.kind(
 	    if (curwin && enyo.windowParams.sendDataToShare) {
 		curwin.enyo.$.main.touchShareData();
 	    }
-	    else if (curwin && enyo.windowParams.helloData) {
-		curwin.enyo.$.main.touchDisplay(enyo.windowParams.helloData);
+	    else if (curwin && enyo.windowParams.target) {
+		var string = enyo.windowParams.target.substring(21);
+		curwin.enyo.$.main.touchDisplay(string);
 	    }
 	},
 
@@ -78,12 +79,9 @@ enyo.kind(
 	},
 
 	touchShareData: function() {
-	    this.$.touchElement.setContent("Sharing data ...");
+	    this.$.touchElement.setContent("Calling Touch to Share ...");
 	    this.$.touchservice.call(
-		{
- // data: { target: "http://developer.palm.com/appredirect/?packageid=org.preware.docs", type: "rawdata", mimetype: "text/html" }
- data: { target: "http://tts.wosi.ws/org.webosinternals.hello/?helloData=Enyo", type: "rawdata", mimetype: "text/html" }
-		}
+		{ data: { target: "http://hello.wosi.ws/Enyo", type: "rawdata", mimetype: "text/html" } }
 	    );
 	},
 
