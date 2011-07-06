@@ -4,7 +4,8 @@ enyo.kind(
 	kind: enyo.VFlexBox,
 	className: 'enyo-fit enyo-vflexbox main',
 	published: {
-		touched:0
+	    deviceName:"Enyo Hello! App",
+	    touched:0
 	},
 	components: [
 	    { kind: "ApplicationEvents", onApplicationRelaunch: "applicationRelaunchHandler" },
@@ -29,7 +30,10 @@ enyo.kind(
 	      onResponse: 'nodeResponse' },
 	    { name: 'touchservice', kind: 'PalmService',
 	      service: 'palm://com.palm.stservice/', method: 'shareData',
-	      onResponse: 'touchResponse' }
+	      onResponse: 'touchResponse' },
+	    { name: 'nameservice', kind: 'PalmService',
+	      service: 'palm://com.palm.systemservice/', method: 'getPreferences',
+	      onResponse: 'nameResponse' }
 	],
 
 	applicationRelaunchHandler: function(params) {
@@ -46,11 +50,21 @@ enyo.kind(
 	rendered: function() {
 	    this.inherited(arguments);
 	    this.$.csrvElement.setContent("Calling C Service ...");
-	    this.$.cservice.call({ 'name':'C Service' });
+	    this.$.cservice.call({ 'name': 'C Service' });
 	    this.$.nodeElement.setContent("Calling Node Service ...");
-	    this.$.nodeservice.call({ 'name':'Node Service' });
+	    this.$.nodeservice.call({ 'name': 'Node Service' });
+	    this.$.nameservice.call({ 'keys': ["deviceName"] });
 	},
 	
+	nameResponse: function(inSender, inResponse, inRequest) {
+	    if (inResponse.returnValue === true) {
+		this.deviceName = inResponse.deviceName;
+	    }
+	    else {
+		this.deviceName = "Unknown Device";
+	    }
+	},
+
 	csrvResponse: function(inSender, inResponse, inRequest) {
 	    if (inResponse.returnValue === true) {
 		this.$.csrvElement.setContent(inResponse.reply);
@@ -81,7 +95,8 @@ enyo.kind(
 	touchShareData: function() {
 	    this.$.touchElement.setContent("Calling Touch to Share ...");
 	    this.$.touchservice.call(
-		{ data: { target: "http://hello.wosi.ws/Enyo", type: "rawdata", mimetype: "text/html" } }
+				     { data: { target: "http://hello.wosi.ws/"+encodeURIComponent(this.deviceName),
+						 type: "rawdata", mimetype: "text/html" } }
 	    );
 	},
 
@@ -101,7 +116,7 @@ enyo.kind(
 	},
 
 	touchDisplay: function(string) {
-	    this.$.touchElement.setContent("Hello "+string+"!");
+	    this.$.touchElement.setContent("Hello "+decodeURIComponent(string)+"!");
 	}
     }
 );

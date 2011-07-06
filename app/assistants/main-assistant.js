@@ -1,6 +1,7 @@
 function MainAssistant() {
     this.activated = false;
     this.touched = 0;
+    this.deviceName = "Mojo Hello! App";
 };
 
 MainAssistant.prototype.setup = function() {
@@ -53,6 +54,13 @@ MainAssistant.prototype.activate = function(params)
 	    this.nodeElement.innerHTML = "Node Service not available.";
 	}
 
+	this.controller.serviceRequest('palm://com.palm.systemservice', {
+		method: "getPreferences",
+		    parameters: {"keys": ["deviceName"]},
+		    onSuccess: this.deviceNameSuccess.bind(this),
+		    onFailure: this.deviceNameFailure.bind(this)
+		    });
+
 	this.activated = 1;
     }
     else if (params.sendDataToShare) {
@@ -60,7 +68,8 @@ MainAssistant.prototype.activate = function(params)
 	this.controller.serviceRequest('palm://com.palm.stservice', {
 					   method:  "shareData",
 					   parameters: {
-		    data: { target: "http://hello.wosi.ws/Mojo", type: "rawdata", mimetype: "text/html" }
+		    data: { target: "http://hello.wosi.ws/"+encodeURIComponent(this.deviceName),
+			    type: "rawdata", mimetype: "text/html" }
 					   },
 					   onSuccess: this.touchSuccess.bind(this),
 					   onFailure: this.touchFailure.bind(this)
@@ -68,8 +77,16 @@ MainAssistant.prototype.activate = function(params)
     }
     else if (params.target) {
 	var string = params.target.substring(21);
-	this.touchElement.innerHTML = "Hello "+string+"!";
+	this.touchElement.innerHTML = "Hello "+decodeURIComponent(string)+"!";
     }
+};
+
+MainAssistant.prototype.deviceNameSuccess = function(successData){
+    this.deviceName = successData.deviceName;
+};
+
+MainAssistant.prototype.deviceNameFailure = function(failData){
+    this.deviceName = "Unknown Device";
 };
 
 MainAssistant.prototype.nodeSuccess = function(successData){
