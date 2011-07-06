@@ -33,11 +33,12 @@ enyo.kind(
 	],
 
 	applicationRelaunchHandler: function(params) {
-	    if (enyo.windowParams.sendDataToShare) {
-		enyo.windows.getActiveWindow().enyo.$.main.touchShareData();
+	    var curwin = enyo.windows.getActiveWindow();
+	    if (curwin && enyo.windowParams.sendDataToShare) {
+		curwin.enyo.$.main.touchShareData();
 	    }
-	    else if (enyo.windowParams.helloData) {
-		enyo.windows.getActiveWindow().enyo.$.main.touchDisplay(enyo.windowParams.helloData);
+	    else if (curwin && enyo.windowParams.helloData) {
+		curwin.enyo.$.main.touchDisplay(enyo.windowParams.helloData);
 	    }
 	},
 
@@ -80,8 +81,8 @@ enyo.kind(
 	    this.$.touchElement.setContent("Sharing data ...");
 	    this.$.touchservice.call(
 		{
- data: { target: "http://developer.palm.com/appredirect/?packageid=org.preware.docs", type: "rawdata", mimetype: "text/html" }
-// data: { id: "org.webosinternals.hello", params: { helloData: "Enyo" } }
+ // data: { target: "http://developer.palm.com/appredirect/?packageid=org.preware.docs", type: "rawdata", mimetype: "text/html" }
+ data: { target: "http://tts.wosi.ws/org.webosinternals.hello/?helloData=Enyo", type: "rawdata", mimetype: "text/html" }
 		}
 	    );
 	},
@@ -101,7 +102,7 @@ enyo.kind(
 	    }
 	},
 
-	touchDisplay: function(data) {
+	touchDisplay: function(string) {
 	    this.$.touchElement.setContent("Hello "+string+"!");
 	}
     }

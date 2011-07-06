@@ -59,8 +59,8 @@ MainAssistant.prototype.activate = function(params)
 	this.controller.serviceRequest('palm://com.palm.stservice', {
 					   method:  "shareData",
 					   parameters: {
-data: { target: "http://developer.palm.com/appredirect/?packageid=org.preware.docs", type: "rawdata", mimetype: "text/html" }
-// data: { id: "org.webosinternals.hello", params: { helloData: "Mojo" } }
+// data: { target: "http://developer.palm.com/appredirect/?packageid=org.preware.docs", type: "rawdata", mimetype: "text/html" }
+ data: { target: "http://tts.wosi.ws/org.webosinternals.hello/?helloData=Enyo", type: "rawdata", mimetype: "text/html" }
 					   },
 					   onSuccess: this.touchSuccess.bind(this),
 					   onFailure: this.touchFailure.bind(this)
