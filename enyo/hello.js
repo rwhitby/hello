@@ -4,7 +4,7 @@ enyo.kind(
 	kind: enyo.VFlexBox,
 	className: 'enyo-fit enyo-vflexbox main',
 	published: {
-		tap2Shared:0
+		touched:0
 	},
 	components: [
 	    { kind: "ApplicationEvents", onApplicationRelaunch: "applicationRelaunchHandler" },
@@ -86,16 +86,13 @@ enyo.kind(
 
 	touchResponse: function(inSender, inResponse, inRequest) {
 	    if (inResponse.returnValue === true) {
-			if(this.tap2Shared==0)
-			{
-				this.$.touchElement.setContent("Hello Touch to Share!");
-				this.tap2Shared+=1;
-			}
-			else if(this.tap2Shared>=1)
-			{
-				this.$.touchElement.setContent("Hello Again, Touch to Share!");
-				this.tap2Shared+=1;
-			}
+		this.touched ++;
+		if (this.touched == 1) {
+		    this.$.touchElement.setContent("Hello Touch to Share!");
+		}
+		else {
+		    this.$.touchElement.setContent("Hello "+this.touched+" Times, Touch to Share!");
+		}
 	    }
 	    else {
 		this.$.touchElement.setContent("Error: "+inResponse.errorText);
