@@ -18,10 +18,13 @@ test: package
 	palm-install ${APPID}_*.ipk
 	palm-launch ${APPID}
 
+install: package
+	palm-install ${APPID}_*.ipk
+	palm-launch ${APPID}
+
 clean:
 	find . -name '*~' -delete
 	rm -f ipkgtmp*.tar.gz ${APPID}_*.ipk
 
 clobber: clean
 	cd c-service && ${MAKE} clobber
-	cd c-plugin && ${MAKE} clobber
