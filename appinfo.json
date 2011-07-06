@@ -13,5 +13,6 @@
 	"main": "index.html",
 	"icon": "icon.png",
 	"keywords": ["goodbye"],
-	"uiRevision": 2
+	"uiRevision": 2,
+	"tapToShareSupported":true
 }

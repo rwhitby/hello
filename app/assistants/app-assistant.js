@@ -5,6 +5,7 @@ function AppAssistant() {}
 
 AppAssistant.prototype.handleLaunch = function(params)
 {
+//	console.log(JSON.stringify(params))
     var mainStageController = this.controller.getStageController(mainStageName);
     
     try {

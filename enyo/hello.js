@@ -4,7 +4,8 @@ enyo.kind(
     kind: enyo.VFlexBox,
     className: 'enyo-fit enyo-vflexbox main',
     components: [
-
+	{kind: "ApplicationEvents", onApplicationRelaunch: "applicationRelaunchHandler"},
+	
 	{kind: wi.Header, random: [
 	     {weight: 1,  tagline: 'You Say Goodbye, But I Say Hello!'}
 	 ]},
@@ -13,19 +14,27 @@ enyo.kind(
 	{name: 'csrvElement', kind: 'Item', content: 'Waiting for C Service ...'},
 	{name: 'pluginElement', kind: 'Item', content: 'Waiting for PDK Plugin ...'},
 	{name: 'nodeElement', kind: 'Item', content: 'Waiting for Node Service ...'},
+	{name: 'tappedElement', kind: 'Item', content: 'Waiting for Tap ...'},
 		
 	{name: 'cservice', kind: 'PalmService',
 	 service: 'palm://org.webosinternals.hello.c/', method: 'hello',
 	 onResponse: 'csrvResponse'},
-
 	{name: 'pluginObject', kind: enyo.Hybrid, executable: 'c-plugin/hello',
 	 onPluginReady: 'pluginReady'},
-
+	{name: "stService", kind: "PalmService", service: "palm://com.palm.stservice/", timeout: 500},
 	{name: 'nodeservice', kind: 'PalmService',
 	 service: 'palm://org.webosinternals.hello.node/', method: 'hello',
 	 onResponse: 'nodeResponse'}
     ],
-    
+    applicationRelaunchHandler: function(params) {
+	if(enyo.windowParams.sendDataToShare != undefined)
+	{
+		this.$.stService.call({data: {target: "http://www.webos-internals.org", type: "rawdata", mimetype: "text/html"}}, {method: "shareData"});
+	}
+	
+      enyo.windows.activate("hello.html", "main", {});
+
+    },
     rendered: function() {
 	this.inherited(arguments);
 	this.$.csrvElement.setContent("Calling C Service ...");
