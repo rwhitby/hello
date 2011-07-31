@@ -21,7 +21,7 @@ rm -f /var/palm/system-services/${CSRVID}.service
 # Remove the ls2 roles
 rm -f /var/palm/ls2/roles/prv/${CSRVID}.json /var/palm/ls2/roles/pub/${CSRVID}.json
 
-# Stop the service if running
+# Stop the C service if running
 /sbin/stop ${CSRVID} || true
 /usr/bin/killall -9 ${CSRVID} || true
 
@@ -49,6 +49,21 @@ cp ${CSRVDIR}/${CSRVID} /var/palm/event.d/${CSRVID}
 
 # Start the C service
 /sbin/start ${CSRVID}
+
+# Remove the node service executable
+rm -f /var/usr/sbin/${NSRVID}
+
+# Remove the node dbus service
+rm -f /var/palm/ls2/services/prv/${NSRVID}.service
+rm -f /var/palm/ls2/services/pub/${NSRVID}.service
+
+# Remove the node ls2 roles
+rm -f /var/palm/ls2/roles/prv/${NSRVID}.json
+rm -f /var/palm/ls2/roles/pub/${NSRVID}.json
+/usr/bin/ls-control scan-services || true
+
+# Stop the node service if running
+/usr/bin/luna-send -n 1 palm://${NSRVID}/__quit '{}'
 
 # Install the node service executable
 mkdir -p /var/usr/sbin/

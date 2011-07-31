@@ -34,3 +34,4 @@ clean:
 
 clobber: clean
 	cd c-service && ${MAKE} clobber
+	cd c-plugin && ${MAKE} clobber

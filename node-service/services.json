@@ -4,9 +4,19 @@
     "services": [ {
     "name": "org.webosinternals.hello.node",
     "description": "Hello Service",
+    "privatebus": true,
     "commands": [ { 
             "name": "hello", 
             "assistant": "HelloAssistant",
+	    "public": true
+             }, { 
+            "name": "helloShell", 
+            "assistant": "HelloShellAssistant",
+	    "public": true
+             }, { 
+            "name": "helloSubscribe", 
+            "assistant": "HelloSubscribeAssistant",
+	    "subscribe": true,
 	    "public": true
              }
            ] 

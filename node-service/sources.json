@@ -1,4 +1,8 @@
 [
 { "library": { "name": "foundations", "version": "1.0" } },
-{ "source": "HelloAssistant.js" }
+{ "source": "prologue.js" },
+{ "source": "HelloService.js" },
+{ "source": "HelloAssistant.js" },
+{ "source": "HelloShellAssistant.js" },
+{ "source": "HelloSubscribeAssistant.js" }
 ]
