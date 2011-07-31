@@ -14,6 +14,8 @@ MainAssistant.prototype.setup = function() {
     this.pluginElement = this.controller.get('pluginDiv');
     this.pluginObject = this.controller.get("pluginObject");
     this.nodeElement = this.controller.get('nodeDiv');
+    this.nodeShellElement = this.controller.get('nodeShellDiv');
+    this.nodeSubscribeElement = this.controller.get('nodeSubscribeDiv');
     this.touchElement = this.controller.get('touchDiv');
 };
 
@@ -44,14 +46,30 @@ MainAssistant.prototype.activate = function(params)
 	if (Mojo.Environment.DeviceInfo.platformVersionMajor != 1) {
 	    this.nodeElement.innerHTML = "Calling Node Service ...";
 	    this.controller.serviceRequest('palm://org.webosinternals.hello.node', {
-					       method: "hello",
-					       parameters: {"name": "Node Service"},
-					       onSuccess: this.nodeSuccess.bind(this),
-					       onFailure: this.nodeFailure.bind(this)
-					   });
+		    method: "hello",
+			parameters: {"name": "Node Service"},
+			onSuccess: this.nodeSuccess.bind(this, this.nodeElement),
+			onFailure: this.nodeFailure.bind(this, this.nodeElement)
+			});
+	    this.nodeShellElement.innerHTML = "Calling Node Shell Service ...";
+	    this.controller.serviceRequest('palm://org.webosinternals.hello.node', {
+		    method: "helloShell",
+			parameters: {"name": "Node Shell Service"},
+			onSuccess: this.nodeSuccess.bind(this, this.nodeShellElement),
+			onFailure: this.nodeFailure.bind(this, this.nodeShellElement)
+			});
+	    this.nodeSubscribeElement.innerHTML = "Calling Node Subscribe Service ...";
+	    this.controller.serviceRequest('palm://org.webosinternals.hello.node', {
+		    method: "helloSubscribe",
+			parameters: {"name": "Node Subscribe Service", "subscribe": true},
+			onSuccess: this.nodeSuccess.bind(this, this.nodeSubscribeElement),
+			onFailure: this.nodeFailure.bind(this, this.nodeSubscribeElement)
+			});
 	}
 	else {
 	    this.nodeElement.innerHTML = "Node Service not available.";
+	    this.nodeShellElement.innerHTML = "Node Shell Service not available.";
+	    this.nodeSubscribeElement.innerHTML = "Node Subscribe Service not available.";
 	}
 
 	this.controller.serviceRequest('palm://com.palm.systemservice', {
@@ -89,12 +107,14 @@ MainAssistant.prototype.deviceNameFailure = function(failData){
     this.deviceName = "Unknown Device";
 };
 
-MainAssistant.prototype.nodeSuccess = function(successData){
-    this.nodeElement.innerHTML = successData.reply;
+MainAssistant.prototype.nodeSuccess = function(element, successData){
+    if (successData.stdout) {
+	element.innerHTML = successData.stdout;
+    }
 };
 
-MainAssistant.prototype.nodeFailure = function(failData){
-    this.nodeElement.innerHTML = JSON.stringify(failData);
+MainAssistant.prototype.nodeFailure = function(element, failData){
+    element.innerHTML = "Error "+failData.errorCode+": "+failData.errorText;
 };
 
 MainAssistant.prototype.csrvSuccess = function(successData){

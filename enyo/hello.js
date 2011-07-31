@@ -5,7 +5,8 @@ enyo.kind(
 	className: 'enyo-fit enyo-vflexbox main',
 	published: {
 	    deviceName:"Enyo Hello! App",
-	    touched:0
+		touched:0,
+		request:false
 	},
 	components: [
 	    { kind: "ApplicationEvents", onApplicationRelaunch: "applicationRelaunchHandler" },
@@ -18,6 +19,8 @@ enyo.kind(
 	    { name: 'csrvElement',   kind: 'Item', content: 'Waiting for C Service ...' },
 	    { name: 'pluginElement', kind: 'Item', content: 'Waiting for PDK Plugin ...' },
 	    { name: 'nodeElement',   kind: 'Item', content: 'Waiting for Node Service ...' },
+	    { name: 'nodeShellElement',   kind: 'Item', content: 'Waiting for Node Shell Service ...' },
+	    { name: 'nodeSubscribeElement',   kind: 'Item', content: 'Waiting for Node Subscribe Service ...' },
 	    { name: 'touchElement',  kind: 'Item', content: 'Waiting for Touch to Share ...' },
 	    
 	    { name: 'cservice', kind: 'PalmService',
@@ -28,6 +31,12 @@ enyo.kind(
 	    { name: 'nodeservice', kind: 'PalmService',
 	      service: 'palm://org.webosinternals.hello.node/', method: 'hello',
 	      onResponse: 'nodeResponse' },
+	    { name: 'nodeshellservice', kind: 'PalmService',
+	      service: 'palm://org.webosinternals.hello.node/', method: 'helloShell',
+	      onResponse: 'nodeShellResponse' },
+	    { name: 'nodesubscribeservice', kind: 'PalmService', subscribe: true,
+	      service: 'palm://org.webosinternals.hello.node/', method: 'helloSubscribe',
+	      onResponse: 'nodeSubscribeResponse' },
 	    { name: 'touchservice', kind: 'PalmService',
 	      service: 'palm://com.palm.stservice/', method: 'shareData',
 	      onResponse: 'touchResponse' },
@@ -54,6 +63,10 @@ enyo.kind(
 	    this.$.nodeElement.setContent("Calling Node Service ...");
 	    this.$.nodeservice.call({ 'name': 'Node Service' });
 	    this.$.nameservice.call({ 'keys': ["deviceName"] });
+	    this.$.nodeShellElement.setContent("Calling Node Shell Service ...");
+	    this.$.nodeshellservice.call({ 'name': 'Node Shell Service' });
+	    this.$.nodeSubscribeElement.setContent("Calling Node Subscribe Service ...");
+	    this.$.nodesubscribeservice.call({ 'name': 'Node Subscribe Service' });
 	},
 	
 	nameResponse: function(inSender, inResponse, inRequest) {
@@ -85,10 +98,34 @@ enyo.kind(
 
 	nodeResponse: function(inSender, inResponse, inRequest) {
 	    if (inResponse.returnValue === true) {
-		this.$.nodeElement.setContent(inResponse.reply);
+		if (inResponse.stdout) {
+		    this.$.nodeElement.setContent(inResponse.stdout);
+		}
 	    }
 	    else {
-		this.$.nodeElement.setContent("Error: "+inResponse.errorText);
+		this.$.nodeElement.setContent("Error "+inResponse.errorCode+": "+inResponse.errorText);
+	    }
+	},
+
+	nodeShellResponse: function(inSender, inResponse, inRequest) {
+	    if (inResponse.returnValue === true) {
+		if (inResponse.stdout) {
+		    this.$.nodeShellElement.setContent(inResponse.stdout);
+		}
+	    }
+	    else {
+		this.$.nodeShellElement.setContent("Error "+inResponse.errorCode+": "+inResponse.errorText);
+	    }
+	},
+
+	nodeSubscribeResponse: function(inSender, inResponse, inRequest) {
+	    if (inResponse.returnValue === true) {
+		if (inResponse.stdout) {
+		    this.$.nodeSubscribeElement.setContent(inResponse.stdout);
+		}
+	    }
+	    else {
+		this.$.nodeSubscribeElement.setContent("Error "+inResponse.errorCode+": "+inResponse.errorText);
 	    }
 	},
 
