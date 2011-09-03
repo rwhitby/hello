@@ -2,7 +2,7 @@
   "id": "org.webosinternals.hello",
   "package_format_version": 2,
   "loc_name": "Hello!",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "icon": "icon.png",
   "miniicon": "icon.png",
   "vendor": "WebOS Internals",
