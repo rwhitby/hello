@@ -1,8 +1,8 @@
 {
 	"title": "Hello!",
 	"id": "org.webosinternals.hello",
-	"version": "1.4.0",
-	"release_date": "6-July-2011",
+	"version": "1.5.0",
+	"release_date": "3-August-2011",
 	"vendor": "WebOS Internals",
 	"vendor_email":	"support@webos-internals.org",
 	"vendor_url": "http://www.webos-internals.org/wiki/Application:Hello",
